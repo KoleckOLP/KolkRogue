@@ -1,0 +1,14 @@
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/libhostpolicy.so
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/libhostfxr.so
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue.deps.json
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue.runtimeconfig.json
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue.runtimeconfig.dev.json
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue.dll
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/bin/Debug/netcoreapp2.2/linux-x64/KolkRogue.pdb
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.csprojAssemblyReference.cache
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.csproj.CoreCompileInputs.cache
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.AssemblyInfoInputs.cache
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.AssemblyInfo.cs
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.dll
+/mnt/d/o.kurz/OneDrive/PROGRAMING/c#_projects/KolkRogue/KolkRogue/obj/Debug/netcoreapp2.2/linux-x64/KolkRogue.pdb

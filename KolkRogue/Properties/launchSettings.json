@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "help": {
+      "commandName": "Project",
+      "commandLineArgs": "-h"
+    },
+    "normal": {
+      "commandName": "Project"
+    }
+  }
+}
