@@ -17,13 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="lvl1.txt">
+    <None Update="levels\lvl1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lvl2.txt">
+    <None Update="levels\lvl2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lvl3.txt">
+    <None Update="levels\lvl3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

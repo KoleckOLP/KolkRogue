@@ -24,15 +24,15 @@ namespace KolkRogue
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                path = $"{path}/{_lvln}.txt";
+                path = $"{path}/levels/{_lvln}.txt";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                path = $"{path}/{_lvln}.txt";
+                path = $"{path}/levels/{_lvln}.txt";
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                path = $"{path}\\{_lvln}.txt";
+                path = $"{path}\\levels\\{_lvln}.txt";
             }
 
             if (!File.Exists(path))
