@@ -6,24 +6,16 @@
     <TargetFramework>net6.0</TargetFramework>
     <ApplicationIcon>dot.ico</ApplicationIcon>
     <LangVersion>default</LangVersion>
-    <Version>0.0.1</Version>
-    <Authors>KoleckOLP</Authors>
+    <Version>6.0.1.1</Version>
+    <Authors>koleq</Authors>
     <Company>HorseArmored Inc.</Company>
-    <StartupObject></StartupObject>
+    <PackageVersion>6.0.1.1</PackageVersion>
+    <AssemblyVersion>6.0.1.1</AssemblyVersion>
+    <FileVersion>6.0.1.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Gold.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="levels\lvl1.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="levels\lvl2.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="levels\lvl3.txt">
+    <None Update="levels\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

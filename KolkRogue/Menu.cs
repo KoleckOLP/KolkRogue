@@ -13,7 +13,7 @@ namespace KolkRogue
 
         public void GameMenu()
         {
-            WriteLine("{0} v{1}Alpha\n" +
+            WriteLine("{0} v{1} Alpha\n" +
                       "by koleq, HorseArmored Inc (C){2}\n", _name, _ver, _year);
 
             while (true)
