@@ -1,32 +1,24 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
-using System.Threading;
 
 namespace KolkRogue
 {
-    class Menu
+    internal class Menu
     {
-        private string name = Assembly.GetEntryAssembly().GetName().Name.ToString();
-        private string ver = Assembly.GetEntryAssembly().GetName().Version.ToString();
-        private string year = DateTime.Now.Year.ToString();
-        private string date = KolkRogue.AssemblyInfo.Date.ToString("dd.MM.yyyy");
+        private readonly string _name = Assembly.GetEntryAssembly()?.GetName().Name;
+        private readonly string _ver = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
+        private readonly string _year = DateTime.Now.Year.ToString();
+        private readonly string _date = AssemblyInfo.Date.ToString("dd.MM.yyyy");
 
-        public void menu()
+        public void GameMenu()
         {
             WriteLine("{0} v{1}Alpha\n" +
-                      "by KoleckOLP, HorseArmored Inc (C){2}\n", name, ver, year);
+                      "by koleq, HorseArmored Inc (C){2}\n", _name, _ver, _year);
 
             while (true)
             {
-                Gnew test2 = new Gnew();
-
-                char choice;
+                var test2 = new Gnew();
 
 
                 WriteLine("1. New Game\n" +
@@ -35,44 +27,45 @@ namespace KolkRogue
                           "4. About & Credits\n" +
                           "5. Quit");
                 Write("#");
-                choice = ReadKey().KeyChar;
-                if (choice == '1')
+                
+                var choice = ReadKey().KeyChar;
+                
+                switch (choice)
                 {
-                    test2.Story();
-                    Clear();
+                    case '1': // New Game
+                        test2.Story();
+                        Clear();
+                        break;
+                    case '2': // Custom Levels
+                        test2.Map();
+                        Clear();
+                        break;
+                    case '3': // Load game
+                        Clear();
+                        WriteLine("Loading is not yet implemented\n");
+                        break;
+                    case '4': // About & Credits
+                        Clear();
+                        GameHelp();
+                        break;
+                    case '5': // Exit
+                        Environment.Exit(0);
+                        break;
+                    default: // wrong input
+                        Clear();
+                        WriteLine("Choice is 1-4\n");
+                        break;
                 }
-                else if (choice == '2')
-                {
-                    test2.Map();
-                    Clear();
-                }
-                else if (choice == '3')
-                {
-                    Clear();
-                    WriteLine("Loading is not yet implemented\n");
-                }
-                else if (choice == '4')
-                {
-                    Clear();
-                    help();
-                }
-                else if (choice == '5')
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Clear();
-                    WriteLine("Chice is 1-4\n");
-                }
+
+                return;
             }
         }
 
-        public void help()
+        public void GameHelp()
         {
-            WriteLine("{0} vesion: {1} Alpha by KoleckOLP, HorseArmored Inc (C){2}\n" +
-                      "Builded on: {3}\n" +
-                      "-h, -?, --help to show this message.",name,ver,year,date);
+            WriteLine("{0} Version: {1} Alpha by koleq, HorseArmored Inc (C){2}\n" +
+                      "Built on: {3}\n" +
+                      "-h, -?, --help to show this message.",_name,_ver,_year,_date);
         }
     }
 }

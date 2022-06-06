@@ -1,51 +1,43 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
-using System.Threading;
 
 namespace KolkRogue
 {
-    class Gnew
+    internal class Gnew
     {
         public void Story()
         {
-            MapLoader lmap = new MapLoader();
-            lmap.load();
-            map = lmap.map;
-            pp = lmap.pp;
-            logic();
+            var lmap = new MapLoader();
+            lmap.Load();
+            _map = lmap.Fmap;
+            _pp = lmap.Fpp;
+            Logic();
         }
 
         public void Map()
         {
             MapLoader lmap = new MapLoader();
             lmap.Custom();
-            lmap.load();
-            map = lmap.map;
-            pp = lmap.pp;
-            logic();
+            lmap.Load();
+            _map = lmap.Fmap;
+            _pp = lmap.Fpp;
+            Logic();
         }
 
-        private char[][] map;
-        private int[] pp;
-        public void logic()
-        {
-            string[] maps = new string[map.Length];
+        private char[][] _map;
+        private int[] _pp;
 
-            ConsoleKey input; //players input
+        private void Logic()
+        {
+            var maps = new string[_map.Length];
+
             string output = ""; //output for the player
-            char ns; //next space
             char ys = '.'; //your space
 
             int i = 0;
-            while (i < map.Length)
+            while (i < _map.Length)
             {
-                maps[i] = new string(map[i]);
+                maps[i] = new string(_map[i]);
                 i++;
             }
 
@@ -53,7 +45,7 @@ namespace KolkRogue
             WriteLine("arrow keys to move around, q - quit to menu");
 
             i = 0;
-            while (i < map.Length)
+            while (i < _map.Length)
             {
                 WriteLine("{0}", maps[i]);
                 i++;
@@ -68,22 +60,23 @@ namespace KolkRogue
                       "                                                                              ");
                 SetCursorPosition(0, maps.Length+1);
                 Write("{0}, {1} standing on: {2}\n" +
-                      "#>{3}", pp[0], pp[1], ys, output);
-                input = ReadKey(false).Key;
+                      "#>{3}", _pp[0], _pp[1], ys, output);
+                var input = ReadKey(false).Key; //players input
+                char ns; //next space
                 if (input == ConsoleKey.UpArrow || input == ConsoleKey.NumPad8) //up
                 {
-                    ns = map[pp[0] - 1][pp[1]];
+                    ns = _map[_pp[0] - 1][_pp[1]];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] - 1][pp[1]] = '@';
-                        SetCursorPosition(pp[1], pp[0]);
+                        _map[_pp[0] - 1][_pp[1]] = '@';
+                        SetCursorPosition(_pp[1], _pp[0]);
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0]+1);
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0]+1);
                         Write("{0}",ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1];
+                        _pp[0] = _pp[0] - 1;
+                        _pp[1] = _pp[1];
                         ys = ns;
                     }
                     else if (ns == '#')
@@ -93,18 +86,18 @@ namespace KolkRogue
                 }
                 if (input == ConsoleKey.DownArrow || input == ConsoleKey.NumPad2) //down
                 {
-                    ns = map[pp[0] + 1][pp[1]];
+                    ns = _map[_pp[0] + 1][_pp[1]];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] + 1][pp[1]] = '@';
-                        SetCursorPosition(pp[1], pp[0] + 2);
+                        _map[_pp[0] + 1][_pp[1]] = '@';
+                        SetCursorPosition(_pp[1], _pp[0] + 2);
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0]+1);
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0]+1);
                         Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1];
+                        _pp[0] = _pp[0] + 1;
+                        _pp[1] = _pp[1];
                         ys = ns;
                     }
                     else if (ns == '#')
@@ -114,18 +107,18 @@ namespace KolkRogue
                 }
                 if (input == ConsoleKey.RightArrow || input == ConsoleKey.NumPad6) //right
                 {
-                    ns = map[pp[0]][pp[1] + 1];
+                    ns = _map[_pp[0]][_pp[1] + 1];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0]][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0]+1);
+                        _map[_pp[0]][_pp[1] + 1] = '@';
+                        SetCursorPosition(_pp[1] + 1, _pp[0]+1);
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1],pp[0]+1);
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1],_pp[0]+1);
                         Write("{0}", ys);
-                        pp[0] = pp[0];
-                        pp[1] = pp[1] + 1;
+                        _pp[0] = _pp[0];
+                        _pp[1] = _pp[1] + 1;
                         ys = ns;
                     }
                     else if (ns == '#')
@@ -135,107 +128,107 @@ namespace KolkRogue
                 }
                 if (input == ConsoleKey.LeftArrow || input == ConsoleKey.NumPad4) //left
                 {
-                    ns = map[pp[0]][pp[1] - 1];
+                    ns = _map[_pp[0]][_pp[1] - 1];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0]][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0] + 1);
+                        _map[_pp[0]][_pp[1] - 1] = '@';
+                        SetCursorPosition(_pp[1] - 1, _pp[0] + 1);
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1);
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0] + 1);
                         Write("{0}", ys);
-                        pp[0] = pp[0];
-                        pp[1] = pp[1] - 1;
+                        _pp[0] = _pp[0];
+                        _pp[1] = _pp[1] - 1;
                         ys = ns;
                     }
                     else if (ns == '#')
                     {
-                        output = "wall"; output = "wall, you can't continue this way";
+                        output = "wall, you can't continue this way";
                     }
                 }
                 if (input == ConsoleKey.NumPad7) //Up-Left
                 {
-                    ns = map[pp[0] - 1][pp[1] - 1]; //cosision detection
+                    ns = _map[_pp[0] - 1][_pp[1] - 1]; //collision detection
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] - 1][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0]); //game renderer
+                        _map[_pp[0] - 1][_pp[1] - 1] = '@';
+                        SetCursorPosition(_pp[1] - 1, _pp[0]); //game renderer
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0] + 1); //game renderer
                         Write("{0}", ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1] - 1;
+                        _pp[0] = _pp[0] - 1;
+                        _pp[1] = _pp[1] - 1;
                         ys = ns;
                     }
                     else if (ns == '#')
                     {
-                        output = "wall"; output = "wall, you can't continue this way";
+                        output = "wall, you can't continue this way";
                     }
                 }
                 if (input == ConsoleKey.NumPad9) //Up-Right
                 {
-                    ns = map[pp[0] - 1][pp[1] + 1];
+                    ns = _map[_pp[0] - 1][_pp[1] + 1];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] - 1][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0]); //game renderer
+                        _map[_pp[0] - 1][_pp[1] + 1] = '@';
+                        SetCursorPosition(_pp[1] + 1, _pp[0]); //game renderer
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0] + 1); //game renderer
                         Write("{0}", ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1] + 1;
+                        _pp[0] = _pp[0] - 1;
+                        _pp[1] = _pp[1] + 1;
                         ys = ns;
                     }
                     else if (ns == '#')
                     {
-                        output = "wall"; output = "wall, you can't continue this way";
+                        output = "wall, you can't continue this way";
                     }
                 }
                 if (input == ConsoleKey.NumPad1) //Down-Left
                 {
-                    ns = map[pp[0] + 1][pp[1] - 1];
+                    ns = _map[_pp[0] + 1][_pp[1] - 1];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] + 1][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0] + 2); //game renderer
+                        _map[_pp[0] + 1][_pp[1] - 1] = '@';
+                        SetCursorPosition(_pp[1] - 1, _pp[0] + 2); //game renderer
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0] + 1); //game renderer
                         Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1] - 1;
+                        _pp[0] = _pp[0] + 1;
+                        _pp[1] = _pp[1] - 1;
                         ys = ns;
                     }
                     else if (ns == '#')
                     {
-                        output = "wall"; output = "wall, you can't continue this way";
+                        output = "wall, you can't continue this way";
                     }
                 }
                 if (input == ConsoleKey.NumPad3) //Down-Left
                 {
-                    ns = map[pp[0] + 1][pp[1] + 1];
+                    ns = _map[_pp[0] + 1][_pp[1] + 1];
                     if (ns != '#')
                     {
                         output = "";
-                        map[pp[0] + 1][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0] + 2); //game renderer
+                        _map[_pp[0] + 1][_pp[1] + 1] = '@';
+                        SetCursorPosition(_pp[1] + 1, _pp[0] + 2); //game renderer
                         Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
+                        _map[_pp[0]][_pp[1]] = ys;
+                        SetCursorPosition(_pp[1], _pp[0] + 1); //game renderer
                         Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1] + 1;
+                        _pp[0] = _pp[0] + 1;
+                        _pp[1] = _pp[1] + 1;
                         ys = ns;
                     }
                     else if (ns == '#')
                     {
-                        output = "wall"; output = "wall, you can't continue this way";
+                        output = "wall, you can't continue this way";
                     }
                 }
                 if (input == ConsoleKey.Q)
