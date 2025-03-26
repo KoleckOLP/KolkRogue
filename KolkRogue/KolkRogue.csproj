@@ -6,10 +6,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <ApplicationIcon>dot.ico</ApplicationIcon>
     <LangVersion>7.3</LangVersion>
-    <Version>0.0.1</Version>
+    <Version>0.0.1.1</Version>
     <Authors>KoleckOLP</Authors>
     <Company>HorseArmored Inc.</Company>
     <StartupObject></StartupObject>
+    <AssemblyVersion>26.3.2025.4</AssemblyVersion>
+    <FileVersion>26.3.2025.4</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

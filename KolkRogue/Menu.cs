@@ -27,8 +27,7 @@ namespace KolkRogue
 
         public void ShowMenu()
         {
-            WriteLine("{0} v{1}{2}\n" +
-                      "by KoleckOLP, HorseArmored Inc (C){3}\n", name, ver, isAlphaVersion ? "Alpha" : "", year);
+            WriteLine($"{name} v{ver}{(isAlphaVersion ? " Alpha" : "")} by KoleckOLP, HorseArmored Inc (C){year}\n");
 
             while (true)
             {
@@ -70,9 +69,8 @@ namespace KolkRogue
 
         public void ShowHelp()
         {
-            WriteLine("{0} version: {1} {4} by KoleckOLP, HorseArmored Inc (C){2}\n" +
-                      "Built on: {3}\n" +
-                      "-h, -?, --help to show this message.", name, ver, year, date, isAlphaVersion ? "Alpha" : "");
+            WriteLine($"{name} version: {ver} {year} by KoleckOLP, HorseArmored Inc (C){(isAlphaVersion ? " Alpha" : "")}\n" +
+                      $"Built on: {date}");
         }
     }
 }
