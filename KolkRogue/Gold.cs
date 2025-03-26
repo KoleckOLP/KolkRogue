@@ -1,10 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
 using System.Threading;
 
@@ -23,10 +17,10 @@ namespace KolkRogue
             int[] pp = { 2, 1 }; //palyer position*/
 
             MapLoader lmap = new MapLoader();
-            lmap.load();
+            lmap.Load();
 
             char[][] map = lmap.map;
-            int[] pp = lmap.pp;
+            int[] pp = lmap.playerPosition;
 
             ConsoleKey input; //players input
             string output = ""; //output for the player

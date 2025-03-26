@@ -1,262 +1,136 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
-using System.Threading;
 
 namespace KolkRogue
 {
     class Gnew
     {
-        public void Story()
-        {
-            MapLoader lmap = new MapLoader();
-            lmap.load();
-            map = lmap.map;
-            pp = lmap.pp;
-            logic();
-        }
-
-        public void Map()
-        {
-            MapLoader lmap = new MapLoader();
-            lmap.Custom();
-            lmap.load();
-            map = lmap.map;
-            pp = lmap.pp;
-            logic();
-        }
-
+        private readonly IMapLoaderService _mapLoader;
         private char[][] map;
-        private int[] pp;
-        public void logic()
+        private Player player;
+
+        public Gnew(IMapLoaderService mapLoader)
+        {
+            _mapLoader = mapLoader;
+        }
+
+        public void StartGame(bool custom = false, string levelName = "lvl1")
+        {
+            (map, player) = _mapLoader.LoadMap(custom, levelName);
+            if (map != null && player != null)
+            {
+                Logic();
+            }
+        }
+
+        public void Logic()
         {
             string[] maps = new string[map.Length];
 
-            ConsoleKey input; //players input
-            string output = ""; //output for the player
-            char ns; //next space
-            char ys = '.'; //your space
+            string output = "";
+            char yourSpace = '.';
 
-            int i = 0;
-            while (i < map.Length)
+            for (int i = 0; i < map.Length; i++)
             {
-                maps[i] = new string(map[i]);
-                i++;
+                maps[i] = new string(map[i]);  // Convert each char[] to a string
             }
 
-            Clear();
-            WriteLine("arrow keys to move around, q - quit to menu");
+            Clear(); // important screen clean to overwrite the menu
+            WriteLine("arrow keys to move around, q - quit to menu"); // the frist line of the game
 
-            i = 0;
-            while (i < map.Length)
+            foreach (var row in maps)
             {
-                WriteLine("{0}", maps[i]);
-                i++;
+                WriteLine(row);
             }
 
-            while(true)
+            bool gameOver = false;
+
+            void MovePlayer(int deltaRow, int deltaCol, int mapLength)
             {
-                
+                int newRow = player.Row + deltaRow;
+                int newCol = player.Col + deltaCol;
+                char nextSpace = map[newRow][newCol];
+                if (!gameOver)
+                {
+                    if (nextSpace != '#')
+                    {
+                        map[newRow][newCol] = '@';
+                        SetCursorPosition(newCol, newRow + 1);
+                        Write("@");
 
-                SetCursorPosition(0,maps.Length+1);
-                Write("                                                                              \n" +
-                      "                                                                              ");
-                SetCursorPosition(0, maps.Length+1);
-                Write("{0}, {1} standing on: {2}\n" +
-                      "#>{3}", pp[0], pp[1], ys, output);
-                input = ReadKey(false).Key;
-                if (input == ConsoleKey.UpArrow || input == ConsoleKey.NumPad8) //up
-                {
-                    ns = map[pp[0] - 1][pp[1]];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] - 1][pp[1]] = '@';
-                        SetCursorPosition(pp[1], pp[0]);
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0]+1);
-                        Write("{0}",ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1];
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.DownArrow || input == ConsoleKey.NumPad2) //down
-                {
-                    ns = map[pp[0] + 1][pp[1]];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] + 1][pp[1]] = '@';
-                        SetCursorPosition(pp[1], pp[0] + 2);
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0]+1);
-                        Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1];
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.RightArrow || input == ConsoleKey.NumPad6) //right
-                {
-                    ns = map[pp[0]][pp[1] + 1];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0]][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0]+1);
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1],pp[0]+1);
-                        Write("{0}", ys);
-                        pp[0] = pp[0];
-                        pp[1] = pp[1] + 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.LeftArrow || input == ConsoleKey.NumPad4) //left
-                {
-                    ns = map[pp[0]][pp[1] - 1];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0]][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0] + 1);
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1);
-                        Write("{0}", ys);
-                        pp[0] = pp[0];
-                        pp[1] = pp[1] - 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall"; output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.NumPad7) //Up-Left
-                {
-                    ns = map[pp[0] - 1][pp[1] - 1]; //cosision detection
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] - 1][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0]); //game renderer
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
-                        Write("{0}", ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1] - 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall"; output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.NumPad9) //Up-Right
-                {
-                    ns = map[pp[0] - 1][pp[1] + 1];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] - 1][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0]); //game renderer
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
-                        Write("{0}", ys);
-                        pp[0] = pp[0] - 1;
-                        pp[1] = pp[1] + 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall"; output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.NumPad1) //Down-Left
-                {
-                    ns = map[pp[0] + 1][pp[1] - 1];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] + 1][pp[1] - 1] = '@';
-                        SetCursorPosition(pp[1] - 1, pp[0] + 2); //game renderer
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
-                        Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1] - 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall"; output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.NumPad3) //Down-Left
-                {
-                    ns = map[pp[0] + 1][pp[1] + 1];
-                    if (ns != '#')
-                    {
-                        output = "";
-                        map[pp[0] + 1][pp[1] + 1] = '@';
-                        SetCursorPosition(pp[1] + 1, pp[0] + 2); //game renderer
-                        Write("@");
-                        map[pp[0]][pp[1]] = ys;
-                        SetCursorPosition(pp[1], pp[0] + 1); //game renderer
-                        Write("{0}", ys);
-                        pp[0] = pp[0] + 1;
-                        pp[1] = pp[1] + 1;
-                        ys = ns;
-                    }
-                    else if (ns == '#')
-                    {
-                        output = "wall"; output = "wall, you can't continue this way";
-                    }
-                }
-                if (input == ConsoleKey.Q)
-                {
-                    break;
-                }
+                        map[player.Row][player.Col] = yourSpace;
+                        SetCursorPosition(player.Col, player.Row + 1);
+                        Write("{0}", yourSpace);
 
-                //debug code!
-                /*SetCursorPosition(0, maps.Length+3);
-                i = 0;
-                while (i < map.Length)
-                {
-                    maps[i] = new string(map[i]);
-                    i++;
+                        player.Row = newRow;
+                        player.Col = newCol;
+                        yourSpace = nextSpace;
+                        output = "";
+                    }
+                    else
+                    {
+                        output = "wall, you can't continue this way";
+                    }
+
+                    if (yourSpace == 'T')
+                    {
+                        player.Health -= 10;
+                        output = "Ouch, you stepped in a trap";
+                    }
+
+                    if (player.Health <= 0)
+                    {
+                        output = "You're dead!";
+                        gameOver = true;
+                        return;
+                    }
                 }
-                i = 0;
-                while (i < map.Length)
+            }
+
+            while (true)
+            {
+                SetCursorPosition(0, maps.Length + 1);
+                Write($"                                                                                                \n" +
+                      $"                                                                                                ");
+                SetCursorPosition(0, maps.Length + 1);
+                Write($"{player.Row}, {player.Col} standing on: {yourSpace} health: {player.Health}\n" +
+                      $"#>{output}");
+
+                ConsoleKey input = ReadKey(false).Key;
+
+                switch (input)
                 {
-                    WriteLine("{0}", maps[i]);
-                    i++;
-                }*/
+                    case ConsoleKey.UpArrow:
+                    case ConsoleKey.NumPad8:
+                        MovePlayer(-1, 0, maps.Length);
+                        break;
+                    case ConsoleKey.DownArrow:
+                    case ConsoleKey.NumPad2:
+                        MovePlayer(1, 0, maps.Length);
+                        break;
+                    case ConsoleKey.RightArrow:
+                    case ConsoleKey.NumPad6:
+                        MovePlayer(0, 1, maps.Length);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                    case ConsoleKey.NumPad4:
+                        MovePlayer(0, -1, maps.Length);
+                        break;
+                    case ConsoleKey.NumPad7:
+                        MovePlayer(-1, -1, maps.Length);
+                        break;
+                    case ConsoleKey.NumPad9:
+                        MovePlayer(-1, 1, maps.Length);
+                        break;
+                    case ConsoleKey.NumPad1:
+                        MovePlayer(1, -1, maps.Length);
+                        break;
+                    case ConsoleKey.NumPad3:
+                        MovePlayer(1, 1, maps.Length);
+                        break;
+                    case ConsoleKey.Q:
+                        return; // Exit the loop
+                }
             }
         }
     }

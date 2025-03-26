@@ -1,78 +1,61 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Resources;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using static System.Console;
 
 namespace KolkRogue
 {
-    class MapLoader
+    public interface IMapLoaderService
     {
-        public int[] pp = new int[2];
-        public char[][] map;
+        (char[][] map, Player player) LoadMap(bool custom = false, string levelName = "lvl1");
+    }
 
-        public string lvln = "lvl1";
-
-        public void Custom()
+    class MapLoader : IMapLoaderService
+    {
+        public (char[][] map, Player player) LoadMap(bool custom = false, string levelName = "lvl1")
         {
-            Write("\ntype name of Custom level you want to load:");
-            lvln = ReadLine();
-        }
-
-
-        public void load()
-        {
-            string path = (Path.GetDirectoryName(Assembly.GetEntryAssembly().Location));
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            if (custom)
             {
-                path = String.Format("{0}/{1}.txt", path, lvln);
+                Console.Write("\nType name of custom level you want to load: ");
+                levelName = Console.ReadLine();
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                path = String.Format("{0}/{1}.txt", path, lvln);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                path = String.Format("{0}\\{1}.txt", path, lvln);
-            }
+
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), $"{levelName}.txt");
 
             if (!File.Exists(path))
             {
-                WriteLine("Cannot load no map with that name");
+                throw new FileNotFoundException($"Cannot load map: {levelName}. File not found.");
             }
 
-            string[] maps = File.ReadAllLines(path);
+            string[] mapLines = File.ReadAllLines(path);
+            char[][] map = new char[mapLines.Length][];
 
-            char[][] map = new char[maps.Length][];
-            this.map = map;
-
-            int i = 0;
-            foreach (string s in maps)
+            for (int i = 0; i < mapLines.Length; i++)
             {
-                map[i] = maps[i].ToCharArray();
-                i++;
+                map[i] = mapLines[i].ToCharArray();
             }
 
-            i = 0;
-            int o = 0;
-            while (i < map.Length)
+            Player player = null;
+            bool playerFound = false;
+
+            for (int i = 0; i < map.Length && !playerFound; i++)
             {
-                while (o < map[i].Length)
+                for (int j = 0; j < map[i].Length; j++)
                 {
-                    if (map[i][o] == '@')
+                    if (map[i][j] == '@')
                     {
-                        this.pp[0] = i;
-                        this.pp[1] = o;
+                        player = new Player(i, j);
+                        playerFound = true;
+                        break;
                     }
-                    o++;
                 }
-                o = 0;
-                i++;
             }
+
+            if (!playerFound)
+            {
+                Console.WriteLine("Player position not found on the map.");
+            }
+
+            return (map, player);
         }
     }
 }

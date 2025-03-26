@@ -1,12 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
-using System.Threading;
 
 namespace KolkRogue
 {
@@ -14,10 +7,7 @@ namespace KolkRogue
     {
         static void Main(string[] args)
         {
-            string rootApp = Assembly.GetEntryAssembly().GetName().CodeBase.ToString();
-            Menu menu = new Menu();
-            Gnew test2 = new Gnew();
-            MapLoader mapl = new MapLoader();
+            Menu mainMenu = new Menu();
 
             String[] argus = new string[2];
             if (Environment.GetCommandLineArgs().Length == 1)
@@ -32,18 +22,18 @@ namespace KolkRogue
 
             if (argus[1] == "--help" || argus[1] == "-h" || argus[1] == "-?")
             {
-                menu.help();
+                mainMenu.ShowHelp();
                 Environment.Exit(0);
             }
             else if (argus[1] == null)
             {
-                menu.menu();
+                mainMenu.ShowMenu();
                 Environment.Exit(0);
             }
             else
             {
-                WriteLine("Neplatný argument: {0}", argus[1]);
-                menu.help();
+                WriteLine("Invalid argument: {0}", argus[1]);
+                mainMenu.ShowHelp();
                 Environment.Exit(0);
             }
         }

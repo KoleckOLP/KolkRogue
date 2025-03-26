@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Deterministic>False</Deterministic>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ApplicationIcon>dot.ico</ApplicationIcon>
     <LangVersion>7.3</LangVersion>
     <Version>0.0.1</Version>

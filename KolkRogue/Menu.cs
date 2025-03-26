@@ -1,78 +1,78 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using System.Resources;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Console;
-using System.Threading;
 
 namespace KolkRogue
 {
     class Menu
     {
-        private string name = Assembly.GetEntryAssembly().GetName().Name.ToString();
-        private string ver = Assembly.GetEntryAssembly().GetName().Version.ToString();
-        private string year = DateTime.Now.Year.ToString();
-        private string date = KolkRogue.AssemblyInfo.Date.ToString("dd.MM.yyyy");
+        private readonly string name;
+        private readonly string ver;
+        private readonly string year;
+        private readonly string date;
+        private readonly IMapLoaderService mapLoader;
+        private readonly Gnew gameInstance;
+        private readonly bool isAlphaVersion = true;
 
-        public void menu()
+        public Menu()
         {
-            WriteLine("{0} v{1}Alpha\n" +
-                      "by KoleckOLP, HorseArmored Inc (C){2}\n", name, ver, year);
+            var assembly = Assembly.GetEntryAssembly();
+            name = assembly.GetName().Name.ToString();
+            ver = assembly.GetName().Version.ToString();
+            year = DateTime.Now.Year.ToString();
+            date = AssemblyInfo.Date.ToString("dd.MM.yyyy");
+            mapLoader = new MapLoader();
+            gameInstance = new Gnew(mapLoader);
+        }
+
+        public void ShowMenu()
+        {
+            WriteLine("{0} v{1}{2}\n" +
+                      "by KoleckOLP, HorseArmored Inc (C){3}\n", name, ver, isAlphaVersion ? "Alpha" : "", year);
 
             while (true)
             {
-                Gnew test2 = new Gnew();
-
-                char choice;
-
-
                 WriteLine("1. New Game\n" +
                           "2. Custom Levels\n" +
                           "3. Load Game\n" +
                           "4. About & Credits\n" +
                           "5. Quit");
                 Write("#");
-                choice = ReadKey().KeyChar;
-                if (choice == '1')
+                char choice = ReadKey().KeyChar;
+                switch (choice)
                 {
-                    test2.Story();
-                    Clear();
-                }
-                else if (choice == '2')
-                {
-                    test2.Map();
-                    Clear();
-                }
-                else if (choice == '3')
-                {
-                    Clear();
-                    WriteLine("Loading is not yet implemented\n");
-                }
-                else if (choice == '4')
-                {
-                    Clear();
-                    help();
-                }
-                else if (choice == '5')
-                {
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Clear();
-                    WriteLine("Chice is 1-4\n");
+                    case '1':
+                        gameInstance.StartGame(false);
+                        Clear();
+                        break;
+                    case '2':
+                        gameInstance.StartGame(true);
+                        Clear();
+                        break;
+                    case '3':
+                        Clear();
+                        WriteLine("Loading is not yet implemented\n");
+                        break;
+                    case '4':
+                        Clear();
+                        ShowHelp();
+                        break;
+                    case '5':
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Clear();
+                        WriteLine("Choice is 1-5\n");
+                        break;
                 }
             }
         }
 
-        public void help()
+        public void ShowHelp()
         {
-            WriteLine("{0} vesion: {1} Alpha by KoleckOLP, HorseArmored Inc (C){2}\n" +
-                      "Builded on: {3}\n" +
-                      "-h, -?, --help to show this message.",name,ver,year,date);
+            WriteLine("{0} version: {1} {4} by KoleckOLP, HorseArmored Inc (C){2}\n" +
+                      "Built on: {3}\n" +
+                      "-h, -?, --help to show this message.", name, ver, year, date, isAlphaVersion ? "Alpha" : "");
         }
     }
 }
