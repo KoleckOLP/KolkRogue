@@ -1,6 +1,17 @@
 # KolkRogue
 A rogue like engine I tried to make in 2019
 
+## 2025 revived
+
+Current plan is to use this to learn OOP.<br>
+The plan is eventually to be able to give this a map file (txt) and sceneario (json)<br>
+the engine would load these 2 and would be a game.<br>
+the map file would be just walls and floor, the json would be items players location, his stats, enemies and everything else.<br>
+Inventory and AI are gonna be a mess, also a lot of the current code just need to be rewritten.<br>
+I'm just rambling, honestly I want to write this for fun.
+
+## old
+
 My main goal was to load a txt file map into array of arrays<br>
 find where the player @ is and let him walkaround<br>
 but in the end walking around was way too slow<br>
