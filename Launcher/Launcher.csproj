@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>KolkRogue</AssemblyName>
+    <AssemblyVersion>28.3.2025.0</AssemblyVersion>
+    <FileVersion>28.3.2025.0</FileVersion>
+    <ApplicationIcon>dot.ico</ApplicationIcon>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="dot.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gnew\Gnew.csproj" />
+    <ProjectReference Include="..\Gold\Gold.csproj" />
+    <ProjectReference Include="..\SharedFiles\SharedFiles.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="del $(TargetDir)SharedFiles.dll" />
+  </Target>
+
+</Project>

@@ -1,0 +1,18 @@
+need to improve Program.cs of Launcher
+
+should use enum for tiles in Gneo
+
+visibility in Gneo map 100x100 visibility 11x11 for example
+
+Gneo also loads 2 files, map (txt) and sceneario (json)
+
+map only has walls and floor
+
+scenearios had player position, item positions, quests inverntory and everything else possibly
+
+also could be a template which gets copied to make active game and the game would save into the sceneario
+
+tile that doesn't have a '.' is a hole in the floor and should kill you?
+
+would be cool to eventually list version of all 3 games somewhere.
+

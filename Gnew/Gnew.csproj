@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Deterministic>False</Deterministic>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <Version>2.0.0.0</Version>
+    <Authors>KoleckOLP</Authors>
+    <Company>HorseArmored Inc.</Company>
+    <StartupObject></StartupObject>
+    <AssemblyVersion>27.3.2025.34</AssemblyVersion>
+    <FileVersion>27.3.2025.34</FileVersion>
+    <AssemblyName></AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="G2_lvl1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="lvl3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
