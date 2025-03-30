@@ -1,4 +1,5 @@
-﻿using Gnew;
+﻿using Gneo;
+using Gnew;
 using Gold;
 using System.Reflection;
 using static System.Console;
@@ -13,6 +14,7 @@ namespace Launcher
         private readonly string year;
         private readonly string date;
         private readonly IMapLoaderService mapLoader;
+        private readonly GneoEngine gneoEngine;
         private readonly GnewEngine gnewEngine;
         private readonly GoldEngine goldEngine;
         private readonly bool isAlphaVersion = true;
@@ -24,6 +26,7 @@ namespace Launcher
             ver = assembly.GetName().Version!.ToString();
             year = DateTime.Now.Year.ToString();
             date = AssemblyInfo.Date.ToString("dd.MM.yyyy");
+            gneoEngine = new GneoEngine();
             mapLoader = new MapLoader();
             gnewEngine = new GnewEngine(mapLoader);
             goldEngine = new GoldEngine();
@@ -56,37 +59,48 @@ namespace Launcher
                 SetCursorPosition(21, 15);
                 Write("#");
                 char choice = ReadKey().KeyChar;
-                switch (choice)
-                {
-                    case '1':
-                        Message($"            Gneo didn't start development yet.");
-                        break;
-                    case '2':
-                        Message($"            Gneo didn't start development yet.");
-                        break;
-                    case '3':
-                        Clear();
-                        gnewEngine.StartGame(false);
-                        break;
-                    case '4':
-                        Clear();
-                        gnewEngine.StartGame(true);
-                        break;
-                    case '5':
-                        Clear();
-                        goldEngine.logic();
-                        break;
-                    case '6':
-                        Clear();
-                        goldEngine.logic(true);
-                        break;
-                    case 'q':
-                        Environment.Exit(0);
-                        break;
-                    default:
-                        Message($"          '{choice}' is the wrong choice, try 1-6 or q.");
-                        break;
-                }
+                HandleMenuChoice(choice);
+            }
+        }
+
+        public void HandleMenuChoice(char choice)
+        {
+            switch (choice)
+            {
+                case '1':
+                    Clear();
+                    gneoEngine.Test();
+                    WriteLine("Gneo test called");
+                    break;
+                case '2':
+                    Message($"         Gneo didn't start development yet.");
+                    break;
+                case '3':
+                    Clear();
+                    gnewEngine.StartGame(false);
+                    WriteLine("Gnew start game (false) called");
+                    break;
+                case '4':
+                    Clear();
+                    gnewEngine.StartGame(true);
+                    WriteLine("Gnew start game (true) called");
+                    break;
+                case '5':
+                    Clear();
+                    goldEngine.logic();
+                    WriteLine("Gold logic called");
+                    break;
+                case '6':
+                    Clear();
+                    goldEngine.logic(true);
+                    WriteLine("Gold logic (true) called");
+                    break;
+                case 'q':
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Message($"     '{choice}' is the wrong choice, try 1-6 or q.");
+                    break;
             }
         }
 

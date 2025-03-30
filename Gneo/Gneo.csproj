@@ -4,16 +4,15 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>30.3.2025.3</AssemblyVersion>
-    <FileVersion>30.3.2025.3</FileVersion>
-    <Version>1.0.0.0</Version>
+    <AssemblyVersion>30.3.2025.99</AssemblyVersion>
+    <FileVersion>30.3.2025.99</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="G1_lvl1.txt">
+    <None Update="Story\G3_lvl1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lvl3.txt">
+    <None Update="Story\scenario.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

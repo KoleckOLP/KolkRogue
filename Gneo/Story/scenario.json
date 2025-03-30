@@ -1,0 +1,33 @@
+{
+  "Player": {
+    "Position": {
+      "X": 8,
+      "Y": 28
+    },
+    "Health": 100,
+    "Symbol": "Player"
+  },
+  "Traps": [
+    {
+      "Position": {
+        "X": 5,
+        "Y": 13
+      },
+      "Symbol": "Trap"
+    },
+    {
+      "Position": {
+        "X": 6,
+        "Y": 13
+      },
+      "Symbol": "Floor"
+    },
+    {
+      "Position": {
+        "X": 7,
+        "Y": 13
+      },
+      "Symbol": "Trap"
+    }
+  ]
+}

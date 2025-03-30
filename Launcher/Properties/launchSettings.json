@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Launcher": {
+      "commandName": "Project"
+    },
+    "Gneo": {
+      "commandName": "Project",
+      "commandLineArgs": "--Gneo"
+    },
+    "Gnew": {
+      "commandName": "Project",
+      "commandLineArgs": "--Gnew"
+    },
+    "Gold": {
+      "commandName": "Project",
+      "commandLineArgs": "--Gold"
+    }
+  }
+}

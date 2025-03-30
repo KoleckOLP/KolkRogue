@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gnew", "Gnew\Gnew.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedFiles", "SharedFiles\SharedFiles.csproj", "{4D7057FB-D365-4E48-9D9B-8D29267074C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gneo", "Gneo\Gneo.csproj", "{C156DC45-923A-4CFC-8840-BA3D0523FBE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4D7057FB-D365-4E48-9D9B-8D29267074C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D7057FB-D365-4E48-9D9B-8D29267074C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D7057FB-D365-4E48-9D9B-8D29267074C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C156DC45-923A-4CFC-8840-BA3D0523FBE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C156DC45-923A-4CFC-8840-BA3D0523FBE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C156DC45-923A-4CFC-8840-BA3D0523FBE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C156DC45-923A-4CFC-8840-BA3D0523FBE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
