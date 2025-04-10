@@ -9,9 +9,12 @@
     <Authors>KoleckOLP</Authors>
     <Company>HorseArmored Inc.</Company>
     <StartupObject></StartupObject>
-    <AssemblyVersion>30.3.2025.6</AssemblyVersion>
-    <FileVersion>30.3.2025.6</FileVersion>
+    <AssemblyVersion>10.4.2025.4</AssemblyVersion>
+    <FileVersion>10.4.2025.4</FileVersion>
     <AssemblyName></AssemblyName>
+	<IsAotCompatible>true</IsAotCompatible>
+	<!--<PublishAot>true</PublishAot>-->
+	<StripSymbols>false</StripSymbols>
   </PropertyGroup>
 
   <ItemGroup>

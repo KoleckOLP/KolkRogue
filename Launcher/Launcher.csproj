@@ -6,10 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>KolkRogue</AssemblyName>
-    <AssemblyVersion>30.3.2025.96</AssemblyVersion>
-    <FileVersion>30.3.2025.96</FileVersion>
+    <AssemblyVersion>10.4.2025.13</AssemblyVersion>
+    <FileVersion>10.4.2025.13</FileVersion>
     <ApplicationIcon>dot.ico</ApplicationIcon>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+	<IsAotCompatible>true</IsAotCompatible>
+	<!--<PublishAot>true</PublishAot>-->
+	<StripSymbols>false</StripSymbols>
   </PropertyGroup>
 
   <ItemGroup>

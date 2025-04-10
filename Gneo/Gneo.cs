@@ -29,211 +29,175 @@ namespace Gneo
             Clear();
         }
 
-        public MapTile[,] map; // for Gnew
-        public Scenario? loadedScenario; // for Gnew
+        public MapTile[][] map; // for Gnew
+        public Scenario? sceneario; // for Gnew
         public string output; // for Gnew
         public bool gameOver; // for Gnew
         public MapTile yourSpace = MapTile.Floor; // for Gnew
+        public Visibility visibility = new Visibility();
 
         public void Test()
         {
-            string? storyContent = LoadStoryFromFile();
+            string? storyContent = MapLoader.LoadMapFromFile(); // this does load the map from a .TXT file
 
             if (storyContent != null)
             {
-                //WriteLine(storyContent);
-                WriteLine("Forward ported Gnew renderer and colision detection to Gneo Sceneario loader."); // FIX: TODO: this is here to patch Gnew forwart ported engine
-                map = TileConverter.ConvertStringToMapTileArray(storyContent);
-                TileConverter.PrintMapTileArray(map);
-                loadedScenario = ScenearioSearilizer.LoadScenario("./Story/scenario.json");
-                if (loadedScenario != null)
-                {
-                    if (loadedScenario.Player != null)
-                    {
-                        WriteLine($"Player start position: {loadedScenario.Player.Position.X.ToString()}, {loadedScenario.Player.Position.Y.ToString()}");
-                        SetCursorPosition(loadedScenario.Player.Position.Y, loadedScenario.Player.Position.X + 1);
-                        Write((char)MapTile.Player);
-                        SetCursorPosition(0, 16);
-                    }
-
-                    if (loadedScenario.Traps.Count > 0)
-                    {
-                        for (int i = 0; i < loadedScenario.Traps.Count; i++)
-                        {
-                            WriteLine($"Trap {i} position: {loadedScenario.Traps[i].Position.X}, {loadedScenario.Traps[i].Position.Y}");
-                            SetCursorPosition(loadedScenario.Traps[i].Position.Y, loadedScenario.Traps[i].Position.X + 1);
-                            Write((char)loadedScenario.Traps[i].Symbol);
-                            SetCursorPosition(0, 17+i);
-                        }
-                    }
-                }
-
-                GameplayGnewForwardPort();
-
-                //ReadKey();
-                //Clear();
-            }
-            else
-            {
-                WriteLine("Story loading failed.");
-            }
-        }
-
-        // FIX: TODO: THIS CODE IS TERRIBLE DO A REWRITE YOU LAZY PIECE OF SHIT
-        public void GameplayGnewForwardPort()
-        {
-            if (loadedScenario != null && loadedScenario.Player != null)
-            {
+                map = TileConverter.ConvertStringToMapTileArray(storyContent); // turns the string (char array) in the map txt to MapTile array
+                //TileConverter.PrintMapTileArray(map); // this does draw the whole map which we do not need.
+                sceneario = ScenearioSearilizer.LoadScenario(); // loads the sceneario
                 while (true)
                 {
-                    //SetCursorPosition(0, map.Length + 1);
-                    SetCursorPosition(0, 20);
-                        Write($"                                                                                                \n" +    
-                              $"                                                                                                ");
-                    //SetCursorPosition(0, map.Length + 1);
-                    SetCursorPosition(0, 20);
-                    WriteLine($"{loadedScenario.Player.Position.X}, {loadedScenario.Player.Position.Y} standing on: {yourSpace} health: {loadedScenario.Player.Health}\n" +
-                            $"#>{output}");
-
-                    ConsoleKey input = ReadKey(false).Key;
-
-                    switch (input)
+                    if (sceneario != null && sceneario.Player != null)
                     {
-                        case ConsoleKey.UpArrow:
-                        case ConsoleKey.NumPad8:
-                            MovePlayerGnew(-1, 0, map.Length);
-                            break;
-                        case ConsoleKey.DownArrow:
-                        case ConsoleKey.NumPad2:
-                            MovePlayerGnew(1, 0, map.Length);
-                            break;
-                        case ConsoleKey.RightArrow:
-                        case ConsoleKey.NumPad6:
-                            MovePlayerGnew(0, 1, map.Length);
-                            break;
-                        case ConsoleKey.LeftArrow:
-                        case ConsoleKey.NumPad4:
-                            MovePlayerGnew(0, -1, map.Length);
-                            break;
-                        case ConsoleKey.NumPad7:
-                            MovePlayerGnew(-1, -1, map.Length);
-                            break;
-                        case ConsoleKey.NumPad9:
-                            MovePlayerGnew(-1, 1, map.Length);
-                            break;
-                        case ConsoleKey.NumPad1:
-                            MovePlayerGnew(1, -1, map.Length);
-                            break;
-                        case ConsoleKey.NumPad3:
-                            MovePlayerGnew(1, 1, map.Length);
-                            break;
-                        case ConsoleKey.Q:
-                            Clear(); // clear the screen for the draw of menu
-                            return; // Exit the loop
+                        VisibilityRenderrer(map, sceneario);
+                        (int bellowMapY, int bellowMapX) = GetCursorPosition();
+                        Write($"{sceneario.Player.Position.X}, {sceneario.Player.Position.Y} standing on: {map[sceneario.Player.Position.Y][sceneario.Player.Position.X]} health: {sceneario.Player.Health}\n" +
+                              $"#{output}");
+
+                        PlayerMove();
+                        SetCursorPosition(bellowMapY, bellowMapX);
+                        Write("                                            \n" +
+                              "                                            ");
+                        SetCursorPosition(bellowMapY, bellowMapX);
+                        Write($"{sceneario.Player.Position.X}, {sceneario.Player.Position.Y} standing on: {map[sceneario.Player.Position.Y][sceneario.Player.Position.X]} health: {sceneario.Player.Health}\n" +
+                              $"#{output}");
+                        SetCursorPosition(0, 0);
                     }
                 }
             }
         }
 
-        // FIX: TODO: THIS CODE IS TERRIBLE DO A REWRITE YOU LAZY PIECE OF SHIT
-        public void MovePlayerGnew(int deltaRow, int deltaCol, int mapLength)
+        public void VisibilityRenderrer(MapTile[][] map, Scenario scenario)
         {
-            if (loadedScenario != null && loadedScenario.Player != null)
+            // Define the fixed width (22 columns) and height (11 rows)
+            int width = 22;
+            int height = 11;
+
+            // Calculate the player's position
+            int playerX = scenario.Player.Position.X;
+            int playerY = scenario.Player.Position.Y;
+
+            // Loop over the rows (Y-axis)
+            for (int y = 0; y < height; y++)
             {
-                bool inviztrap = false;
-                string deathmessage = "";
-
-                int newRow = loadedScenario.Player.Position.X + deltaRow;
-                int newCol = loadedScenario.Player.Position.Y + deltaCol;
-                MapTile nextSpace = map[newRow, newCol];
-
-                if (loadedScenario.Traps.Count > 0)
+                // Loop over the columns (X-axis)
+                for (int x = 0; x < width; x++)
                 {
-                    for (int i = 0; i < loadedScenario.Traps.Count; i++)
+                    // Calculate the map position based on the player's center position
+                    int mapX = playerX - 10 + x; // 10 tiles to the left and 10 to the right
+                    int mapY = playerY - 5 + y;  // 5 tiles above and 5 below the player
+
+                    // If the current map position is out of bounds, fill with space
+                    if (mapY < 0 || mapY >= map.Length || mapX < 0 || mapX >= map[mapY].Length)
                     {
-                        if (newRow == loadedScenario.Traps[i].Position.X && newCol == loadedScenario.Traps[i].Position.Y)
-                        {
-                            nextSpace = loadedScenario.Traps[i].Symbol;
-                            if (loadedScenario.Traps[i].Symbol != MapTile.Trap)
-                            {
-                                inviztrap = true;
-                            }
-                        }
-                    }
-                }
-
-                if (!gameOver)
-                {
-                    if (nextSpace != MapTile.Wall)
-                    {
-                        map[newRow, newCol] = MapTile.Player;
-                        SetCursorPosition(newCol, newRow + 1);
-                        Write((char)MapTile.Player);
-
-                        map[loadedScenario.Player.Position.X, loadedScenario.Player.Position.Y] = yourSpace;
-                        SetCursorPosition(loadedScenario.Player.Position.Y, loadedScenario.Player.Position.X + 1);
-                        Write("{0}", (char)yourSpace);
-
-                        loadedScenario.Player.Position.X = newRow;
-                        loadedScenario.Player.Position.Y = newCol;
-                        yourSpace = nextSpace;
-                        output = "";
+                        Write(" ");  // Print a space if out of bounds
                     }
                     else
                     {
-                        output = "wall, you can't continue this way";
-                    }
-
-                    if (yourSpace == MapTile.Trap || inviztrap == true)
-                    {
-                        loadedScenario.Player.Health -= 10;
-                        output = "Ouch, you stepped in a trap";
-                        deathmessage = "You got impaled on a trap. ";
-                    }
-
-                    if (yourSpace == MapTile.Air)
-                    {
-                        loadedScenario.Player.Health = 0;
-                        SetCursorPosition(loadedScenario.Player.Position.Y, loadedScenario.Player.Position.X + 1);
-                        Write("{0}", (char)yourSpace);
-                        deathmessage = "You fell into the void. ";
-                    }
-
-                    if (loadedScenario.Player.Health <= 0)
-                    {
-                        output = deathmessage + "You're dead!";
-                        gameOver = true;
-                        return;
+                        // If the current position matches the player's position, print the player symbol
+                        if (mapX == playerX && mapY == playerY)
+                        {
+                            if (map[playerY][playerX] != MapTile.Air)
+                                Write((char)scenario.Player.Symbol);  // Print the player's symbol
+                            else
+                                Write((char)MapTile.Air);
+                        }
+                        else
+                        {
+                            // Print the tile data (casting to char if MapTile is an enum)
+                            Write((char)map[mapY][mapX]);
+                        }
                     }
                 }
+                WriteLine();  // Move to the next line after printing the row
             }
         }
 
-        public static string? LoadStoryFromFile(string filePath = "./Story/G3_lvl1.txt")
+        public void PlayerMove()
         {
-            try
-            {
-                // Use Path.Combine to handle relative paths correctly
-                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+            ConsoleKey input = ReadKey(false).Key;
 
-                // Read all text from the file
-                string storyText = File.ReadAllText(fullPath);
-                return storyText;
-            }
-            catch (FileNotFoundException)
+            switch (input)
             {
-                Console.WriteLine($"Error: File not found at {filePath}");
-                return null; // Or throw an exception, depending on your error handling
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.NumPad8:
+                    PositionChecking(-1, 0, map.Length);
+                    break;
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.NumPad2:
+                    PositionChecking(1, 0, map.Length);
+                    break;
+                case ConsoleKey.RightArrow:
+                case ConsoleKey.NumPad6:
+                    PositionChecking(0, 1, map.Length);
+                    break;
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.NumPad4:
+                    PositionChecking(0, -1, map.Length);
+                    break;
+                case ConsoleKey.NumPad7:
+                    PositionChecking(-1, -1, map.Length);
+                    break;
+                case ConsoleKey.NumPad9:
+                    PositionChecking(-1, 1, map.Length);
+                    break;
+                case ConsoleKey.NumPad1:
+                    PositionChecking(1, -1, map.Length);
+                    break;
+                case ConsoleKey.NumPad3:
+                    PositionChecking(1, 1, map.Length);
+                    break;
+                case ConsoleKey.Q:
+                    Clear(); // clear the screen for the draw of menu
+                    return; // Exit the loop doesn't quit the game xD
             }
-            catch (DirectoryNotFoundException)
+        }
+
+        public void PositionChecking(int deltaRow, int deltaCol, int mapLength)
+        {
+            int newRow = sceneario.Player.Position.Y + deltaRow;
+            int newCol = sceneario.Player.Position.X + deltaCol;
+
+            bool inviztrap = false;
+            string deathmessage = "";
+            MapTile nextSpace = map[newRow][newCol];
+
+            if (!gameOver)
             {
-                Console.WriteLine($"Error: Directory not found at {filePath}");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading story: {ex.Message}");
-                return null; // Or throw an exception
+                if (nextSpace != MapTile.Wall)
+                {
+
+                    map[sceneario.Player.Position.Y][sceneario.Player.Position.X] = yourSpace;
+
+                    sceneario.Player.Position.Y = newRow;
+                    sceneario.Player.Position.X = newCol;
+                    yourSpace = nextSpace;
+                    output = "";
+                }
+                else
+                {
+                    output = "wall, you can't continue this way";
+                }
+
+                if (yourSpace == MapTile.Trap || inviztrap == true)
+                {
+                    sceneario.Player.Health -= 10;
+                    output = "Ouch, you stepped in a trap";
+                    deathmessage = "You got impaled on a trap. ";
+                }
+
+                if (yourSpace == MapTile.Air)
+                {
+                    sceneario.Player.Health = 0;
+                    deathmessage = "You fell into the void. ";
+                }
+
+                if (sceneario.Player.Health <= 0)
+                {
+                    output = deathmessage + "You're dead!";
+                    gameOver = true;
+                    return;
+                }
             }
         }
     }

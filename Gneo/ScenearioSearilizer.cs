@@ -6,7 +6,7 @@ namespace Gneo
 {
     public static class ScenearioSearilizer
     {
-        public static void SaveScenario(Scenario scenario, string filePath = "scenario.json")
+        public static void SaveScenario(Scenario scenario, string filePath = "./Story/level1_sceneario.json")
         {
             var options = new JsonSerializerOptions
             {
@@ -26,7 +26,7 @@ namespace Gneo
             }
         }
 
-        public static Scenario? LoadScenario(string filePath = "scenario.json")  // I allowed it to be nulleble
+        public static Scenario? LoadScenario(string filePath = "./Story/level1_sceneario.json")  // I allowed it to be nulleble
         {
             var options = new JsonSerializerOptions
             {

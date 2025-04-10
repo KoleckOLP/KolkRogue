@@ -4,15 +4,24 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>30.3.2025.99</AssemblyVersion>
-    <FileVersion>30.3.2025.99</FileVersion>
+    <AssemblyVersion>10.4.2025.13</AssemblyVersion>
+    <FileVersion>10.4.2025.13</FileVersion>
+	<IsAotCompatible>true</IsAotCompatible>
+	<!--<PublishAot>true</PublishAot>-->
+	<StripSymbols>false</StripSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Story\G3_lvl1.txt">
+    <None Update="Story\level1_map.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Story\scenario.json">
+    <None Update="Story\level1_sceneario.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Story_old\G3_lvl1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Story_old\scenario.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
