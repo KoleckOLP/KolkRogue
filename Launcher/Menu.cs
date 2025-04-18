@@ -35,6 +35,7 @@ namespace Launcher
 
         public void ShowMenu()
         {
+            Clear();
             while (true)
             {
                 WriteLine(@"       _  __     _ _    ____                             ");
