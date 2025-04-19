@@ -97,6 +97,7 @@ namespace Launcher
                     WriteLine("Gold logic (true) called");
                     break;
                 case 'q':
+                    Clear();
                     Environment.Exit(0);
                     break;
                 default:

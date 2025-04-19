@@ -4,8 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>10.4.2025.4</AssemblyVersion>
-    <FileVersion>10.4.2025.4</FileVersion>
+    <AssemblyVersion>19.4.2025.0</AssemblyVersion>
+    <FileVersion>19.4.2025.0</FileVersion>
     <Version>1.0.0.0</Version>
 	<IsAotCompatible>true</IsAotCompatible>
 	<!--<PublishAot>true</PublishAot>-->

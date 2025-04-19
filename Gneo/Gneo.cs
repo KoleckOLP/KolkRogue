@@ -36,6 +36,8 @@ namespace Gneo
         public MapTile yourSpace = MapTile.Floor; // for Gnew
         public Visibility visibility = new Visibility();
 
+        public bool running = true;
+
         public void Test()
         {
             string? storyContent = MapLoader.LoadMapFromFile(); // this does load the map from a .TXT file
@@ -45,7 +47,7 @@ namespace Gneo
                 map = TileConverter.ConvertStringToMapTileArray(storyContent); // turns the string (char array) in the map txt to MapTile array
                 //TileConverter.PrintMapTileArray(map); // this does draw the whole map which we do not need.
                 sceneario = ScenearioSearilizer.LoadScenario(); // loads the sceneario
-                while (true)
+                while (running)
                 {
                     if (sceneario != null && sceneario.Player != null)
                     {
@@ -64,6 +66,7 @@ namespace Gneo
                         SetCursorPosition(0, 0);
                     }
                 }
+                Clear();
             }
         }
 
@@ -148,7 +151,7 @@ namespace Gneo
                     PositionChecking(1, 1, map.Length);
                     break;
                 case ConsoleKey.Q:
-                    Clear(); // clear the screen for the draw of menu
+                    running = false;
                     return; // Exit the loop doesn't quit the game xD
             }
         }

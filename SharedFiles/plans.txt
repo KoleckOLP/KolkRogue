@@ -2,7 +2,7 @@
 
 [x] should use enum for tiles in Gneo
 
-[ ] visibility in Gneo map 100x100 visibility 11x11 for example
+[x] visibility in Gneo map 100x100 visibility 11x11 for example
 
 [x] Gneo also loads 2 files, map (txt) and sceneario (json)
 
@@ -20,4 +20,7 @@
 30.03.25:
 	[x] traps could be invisible
 	[ ] and traps could have a chance to hurt, not hurt always
+
+18.04.25:
+	[x] q doesn't quit in Gneo
 
