@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
 using static System.Console;
+using System.Reflection;
 
 namespace Gneo
 {
@@ -35,7 +36,20 @@ namespace Gneo
 
             try
             {
-                string jsonString = File.ReadAllText(filePath);
+                string processedPath;
+
+                // attempting to fix file not being found when not ran from build dir
+                if (filePath.StartsWith('.'))
+                {
+                    processedPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), filePath.Substring(2));
+                }
+                else 
+                {
+                    // Use Path.Combine to handle relative paths correctly
+                    processedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+                }
+
+                string jsonString = File.ReadAllText(processedPath);
                 return JsonSerializer.Deserialize<Scenario>(jsonString, options);
             }
             catch (Exception ex)
